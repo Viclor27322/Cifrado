@@ -1,0 +1,8 @@
+import CryptoJS from 'crypto-js';
+
+// Definir clave y texto a cifrar
+const key = 'clave secreta';
+const text = 'Texto a cifrar';
+
+// Cifrar el texto
+const ciphertext = CryptoJS.TripleDES.encrypt(text, key).toString();
