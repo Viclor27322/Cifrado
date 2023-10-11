@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cifrado César</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container justify-content-center p-5 ">
+        <h1 class="ps-5">Cifrado César</h1>
+        <hr>
+        <div class="row pt-2">
+            <div class="col">
+                <label  for="inputText">Texto a cifrar:</label>
+                <input class="form-control" type="text" id="inputText">
+                <br>
+                <button class="btn btn-success" onclick="cifrar()">Cifrar</button>
+                <p>Texto cifrado:</p>
+                <p id="outputText"></p>
+            </div>
+            <div class="col">
+                <label for="inputText">Texto a Descifrar:</label>
+                <input class="form-control" type="text" id="DesText">
+                <br>
+                <button class="btn btn-secondary"  onclick="Descifrar()">Descifrar</button>
+                <br>
+                <p>Texto Descifrado:</p>
+                <p id="SText"></p>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        function eliminarAcentosDieresis(texto) {
+            return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function cifrar() {
+            const textoOriginal = document.getElementById("inputText").value;
+            const desplazamiento = 5
+            const textoSinAcentosDieresis = eliminarAcentosDieresis(textoOriginal);
+            let resultado = "";
+
+            for (let i = 0; i < textoSinAcentosDieresis.length; i++) {
+                let char = textoSinAcentosDieresis[i];
+                if (char.match(/[a-zA-Z0-9]/)) {
+                    let charCode = char.charCodeAt(0);
+                    let baseCharCode = charCode <= 90 ? 65 : 97;
+                    char = String.fromCharCode(((charCode - baseCharCode + desplazamiento) % 26) + baseCharCode);
+                }
+                resultado += char;
+            }
+
+            document.getElementById("outputText").textContent = resultado;
+        }
+        function Descifrar() {
+            const textoOriginal = document.getElementById("DesText").value;
+            const desplazamiento = 5
+            const textoSinAcentosDieresis = eliminarAcentosDieresis(textoOriginal);
+            let resultado = "";
+
+            for (let i = 0; i < textoSinAcentosDieresis.length; i++) {
+                let char = textoSinAcentosDieresis[i];
+                if (char.match(/[a-zA-Z0-9]/)) {
+                    let charCode = char.charCodeAt(0);
+                    let baseCharCode = charCode <= 90 ? 65 : 97;
+                    char = String.fromCharCode(((charCode - baseCharCode - desplazamiento) % 26) + baseCharCode);
+                }
+                resultado += char;
+            }
+            console.log(resultado);
+            document.getElementById("SText").textContent = resultado;
+        }
+    </script>
+</body>
+
+</html>
